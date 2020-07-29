@@ -3,11 +3,58 @@
 <head>
 <meta charset="UTF-8" />
 <title>Vue.js</title>
+      <style>
+        app {
+            background-color: #ffa500;
+              width: 500px;
+          height: 200px;
+        }
+ 
+        menu1 {
+            background-color: #ffa500;
+              width: 500px;
+          height: 200px;
+          margin: 20px;
+        }
+                menu2 {
+                  
+            background-color: #ffa500;
+              width: 500px;
+          height: 200px;
+          margin: 20px;
+        }
+ 
+        .first-sentence {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div id="app">
-  <p>{{ message }}</p>
+<div id="app" stylewidth=>
+  Youtuber検索アプリ 
 </div>
+  <p><span class="menu1">テキストボックス</span><span class="menu1">▼人気順</span><span class="menu1">検索</span></p>
+  <p><span class="menu2">動画DL</span><span class="menu2">PDF, CSV, DL</span></p>
+  <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+<tr>
+
+<th bgcolor="#FFFFFF" width="150">youtuber画像</th>
+<th bgcolor="#FFFFFF" width="200">Youtuber情報<br>
+最近の動画、SNSリンクなど
+</font></th>
+</tr>
+<tr>
+
+<td bgcolor="#FFFFFF" valign="top" width="150">youtuber画像</td>
+<td bgcolor="#FFFFFF" valign="top" width="200">youtuber情報</td>
+</tr>
+<tr>
+
+<td bgcolor="#FFFFFF" valign="top" width="150">youtuber画像</td>
+<td bgcolor="#FFFFFF" valign="top" width="200">youtuber情報</td>
+</tr>
+</table>
+  
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 <script src="js/kanmuri.js"></script>
 </body>
