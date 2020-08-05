@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="UTF-8" />
-<title>Vue.js</title>
-</head>
-<body>
-<div id="app">
-  <p>{{ message }}</p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
-<script src="js/nakashima.js"></script>
-</body>
+  <head>
+    <title>コラボ</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <form>
+        <input type="text" v-model='keyword' placeholder="検索キーワードを入力">
+        <button v-on:click="searchMovies">検索</button>
+      </form>
+      <table class="table" v-show="results">
+        <tr>
+          <th>#</th>
+          <th>動画</th>
+          <th>動画情報</th>
+        </tr>
+        <tr v-for="(movie, index) in results" v-bind:key="movie.id.videoId">
+          <td>{{ index + 1 }}</td>
+          <td>
+            <a v-bind:href="'https://www.youtube.com/watch?v=' + movie.id.videoId">
+              <img width=320 height=180 v-bind:src="movie.snippet.thumbnails.medium.url">
+            </a>
+          </td>
+          <td>
+            {{ movie.snippet.title }}<br />
+            <span class="desc">
+              {{ movie.snippet.description }}
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>
+<!-- Webアプリ用JS読み込み -->
+<script src="colabo.js"></script>
