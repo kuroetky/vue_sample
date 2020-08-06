@@ -7,10 +7,7 @@
   </head>
   <body>
     <div id="app">
-      <form>
-        <input type="text" v-model='keyword' placeholder="検索キーワードを入力">
-        <button v-on:click="searchMovies">検索</button>
-      </form>
+      <button v-on:click="searchMovies">検索</button>
       <table class="table" v-show="results">
         <tr>
           <th>#</th>
@@ -36,4 +33,4 @@
   </body>
 </html>
 <!-- Webアプリ用JS読み込み -->
-<script src="colabo.js"></script>
+<script src="nakashima.js"></script>
