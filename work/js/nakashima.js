@@ -4,15 +4,16 @@ var vm = new Vue({
     results: null,
     keyword: null,
     params: {
-      q: '東海オンエア',
+      q: '',
       part: 'snippet',
       type: 'video',
       maxResults: '10',
-      key: 'AIzaSyAZrymJcLspFg46RLEupb_n-JEz68yNDh8'
+      key: '***********************'
     }
   },
   methods: {
     searchMovies: function () {
+      this.params.q = this.keyword;
       var self = this;
       axios
         .get('https://www.googleapis.com/youtube/v3/search', {params: this.params})

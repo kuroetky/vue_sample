@@ -7,6 +7,7 @@
   </head>
   <body>
     <div id="app">
+      <input type="text" v-model='keyword' placeholder="検索キーワードを入力">
       <button v-on:click="searchMovies">検索</button>
       <table class="table" v-show="results">
         <tr>
