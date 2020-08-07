@@ -7,6 +7,7 @@
   </head>
   <body>
     <div id="app">
+      <input type="text" v-model='apiKey' placeholder="APIキーを入力">
       <input type="text" v-model='params.channel.q' placeholder="検索キーワードを入力">
       <button v-on:click="searchChannels">検索</button>
       <table class="table" v-show="results">

@@ -1,26 +1,27 @@
-var API_KEY = 'AIzaSyAZrymJcLspFg46RLEupb_n-JEz68yNDh8'
 var vm = new Vue({
   el: '#app',
   data: {
+    apiKey: '',
     results: null,
     params: {
       channel: {
         q: '',
         part: 'snippet',
         type: 'channel',
-        maxResults: '5',
-        key: API_KEY
+        maxResults: '10',
+        key: ''
       },
       statistics: {
         part: 'snippet,statistics',
         id: '',
-        key: API_KEY
+        key: ''
       }
     }
   },
   methods: {
     searchChannels: function () {
       var own = this;
+      this.params.channel.key = this.apiKey;
       axios
         .get('https://www.googleapis.com/youtube/v3/search', {params: this.params.channel})
         .then(function (res) {
@@ -38,6 +39,7 @@ var vm = new Vue({
     searchChannelStatistics: function (channelIds) {
       this.params.statistics.id = channelIds.join(',');
       var own = this;
+      this.params.statistics.key = this.apiKey;
       axios
         .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
         .then(function (res) {
