@@ -35,12 +35,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr v-for="info in infos">
+              <td>{{ info.img }}</td>
+              <td>{{ info.name }}</td>
+              <td>{{ info.registrationNum }}</td>
+              <td>{{ info.viewsNum }}</td>
+              <td>{{ info.contents }}</td>
               <td style="text-align: right;">
                 <button class="btn btn-danger">投稿</button>
               </td>
