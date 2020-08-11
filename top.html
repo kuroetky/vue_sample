@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>activity-log</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="css/top.css" />
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div style="text-align: right;">
+            <button class="btn btn-secondary" style="width: 140px;">チャットルーム</button>
+            <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
+        </div>
+        <div id="activity-log">
+            <h1>YouTuber 検索アプリ</h1>
+            <div class="col-lg" style="text-align: center;">
+                <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;" />
+                <input type="text" v-model="params.channel.q" style="width: 30%;" />
+                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                <br><br><br>
+            </div>
+            <div>
+                <table class="table" v-show="results" style="table-layout: fixed; word-wrap: break-word;">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width: 15%;">画像</th>
+                            <th style="width: 15%;">YouTuber名</th>
+                            <th style="width: 10%;">登録者数</th>
+                            <th style="width: 10%;">再生回数</th>
+                            <th style="width: 45%;">チャンネル内容</th>
+                            <th style="width: 10%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="channel in results">
+                            <td>
+                                <a v-bind:href="'https://www.youtube.com/channel/' + channel.id">
+                                    <img width="88" height="88" v-bind:src="channel.snippet.thumbnails.default.url">
+                                </a>
+                            </td>
+                            <td>{{ channel.snippet.title }}</td>
+                            <td>{{ channel.statistics.subscriberCount }}</td>
+                            <td>{{ channel.statistics.viewCount}}</td>
+                            <td>
+                                <span class="desc">
+                                    {{ channel.snippet.description }}
+                                </span>
+                            </td>
+                            <td style="text-align: right;">
+                                <button class="btn btn-danger">投稿</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/top.js"></script>
+</body>
+
+</html>
