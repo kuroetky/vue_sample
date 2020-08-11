@@ -54,10 +54,10 @@ var vm = new Vue({
             this.results.forEach(el => {
                 var line =
                 'https://www.youtube.com/channel/' + el['id'] + ','
-                + el['snippet']['title'] + ','
+                + el['snippet']['title'].replace(/\r?\n/g,"") + ','
                 + el['statistics']['subscriberCount'] + ','
                 + el['statistics']['viewCount'] + ','
-                + el['snippet']['description'] + '\n';
+                + el['snippet']['description'].replace(/\r?\n/g,"") + '\n';
                 csv += line;
             })
             let blob = new Blob([csv], { type: 'text/csv' });
