@@ -43,11 +43,14 @@ var vm = new Vue({
       axios
         .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
         .then(function (res) {
-          own.results = res.data.items;
+          own.results = res.data.items.sort(own.compareFunc);
         })
         .catch(function (err) {
           console.log(err);
         });
+    },
+    compareFunc: function (a, b) {
+      return b.statistics.subscriberCount - a.statistics.subscriberCount;
     }
   }
 });
