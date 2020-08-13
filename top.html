@@ -38,7 +38,7 @@
                     <tbody>
                         <tr v-for="channel in results">
                             <td>
-                                <a v-bind:href="'https://www.youtube.com/channel/' + channel.id">
+                                <a v-bind:href="'https://www.youtube.com/channel/' + channel.id" target="_blank">
                                     <img width="88" height="88" v-bind:src="channel.snippet.thumbnails.default.url">
                                 </a>
                             </td>
@@ -50,8 +50,9 @@
                                     {{ channel.snippet.description }}
                                 </span>
                             </td>
-                            <td style="text-align: right;">
-                                <button class="btn btn-danger">投稿</button>
+                            <td>
+                                <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title" target="_blank">さらに詳しく検索</a><br>
+                                <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title" target="_blank">amazonでグッズを見る</a>
                             </td>
                         </tr>
                     </tbody>
