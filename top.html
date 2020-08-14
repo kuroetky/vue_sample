@@ -24,15 +24,14 @@
                 <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
                 <br>
                 <label for="sortKey">ソート項目</label>
-                <select v-model="sort.sortKey" id="sortKey">
-                    <option value="keyword">キーワード関連度</option>
+                <select v-model="sort.key" id="sortKey">
                     <option value="subscriberCount">登録者数</option>
                     <option value="viewCount">再生回数</option>
                 </select>
-                <label for="order">昇順降順</label>
-                <select v-model="sort.order" id="order">
-                    <option value=true>昇順</option>
-                    <option value=false>降順</option>
+                <label for="sortOrder">昇順降順</label>
+                <select v-model="sort.order" id="sortOrder">
+                    <option value="asc">昇順</option>
+                    <option value="desc">降順</option>
                 </select>
                 <br><br>
             </div>

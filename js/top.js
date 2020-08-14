@@ -2,6 +2,7 @@ var vm = new Vue({
     el: '#app',
     data: {
         apiKey: '',
+        keyword: '', // 直前に検索したキーワードを保存しておく
         results: null,
         params: {
             channel: {
@@ -18,29 +19,36 @@ var vm = new Vue({
             }
         },
         sort: {
-            sortKey: 'keyword',
-            order: false // 昇順ならtrue, 降順ならfalse
+            key: '',
+            order: ''
         }
     },
     methods: {
         // チャンネル検索(Search :list)
         searchChannels: function () {
-            var own = this;
-            this.params.channel.key = this.apiKey;
-            // YouTube Data API実行
-            axios
-                .get('https://www.googleapis.com/youtube/v3/search', {params: this.params.channel})
-                .then(function (res) {
-                    var channelIds = [];
-                    for(item of res.data.items) {
-                        channelIds.push(item.id.channelId);
-                    }
-                    console.log(channelIds);
-                    own.searchChannelStatistics(channelIds);
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
+            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
+            if(this.params.channel.q == this.keyword) {
+                console.log('log1: ' + this.sort.order);
+                this.results = this.results.slice().sort(this.compareFunc);
+            } else {
+                var own = this;
+                this.params.channel.key = this.apiKey;
+                this.keyword = this.params.channel.q;
+                // YouTube Data API実行
+                axios
+                    .get('https://www.googleapis.com/youtube/v3/search', {params: this.params.channel})
+                    .then(function (res) {
+                        var channelIds = [];
+                        for(item of res.data.items) {
+                            channelIds.push(item.id.channelId);
+                        }
+                        console.log(channelIds);
+                        own.searchChannelStatistics(channelIds);
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+            }
         },
         // チャンネル統計情報取得(Channel: list)
         searchChannelStatistics: function (channelIds) {
@@ -52,7 +60,7 @@ var vm = new Vue({
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
                     // ソートキーに従ってソートする。デフォルトは検索時の結果をそのまま返す。
-                    console.log(own.sort.sortKey);
+                    console.log(own.sort.key);
                     console.log(own.sort.order);
                     own.results = res.data.items.sort(own.compareFunc);
                     console.log(own.results);
@@ -63,15 +71,16 @@ var vm = new Vue({
         },
         // 比較関数
         compareFunc: function (a, b) {
-            switch(this.sort.sortKey) {
+            var order = this.sort.order == "asc" ? true : false;
+            switch(this.sort.key) {
                 case 'subscriberCount':
-                    return (a.statistics.subscriberCount - b.statistics.subscriberCount) * (this.sort.order ? 1 : -1);
+                    return (a.statistics.subscriberCount - b.statistics.subscriberCount) * (order ? 1 : -1);
                     break;
                 case 'viewCount':
-                    return (a.statistics.viewCount - b.statistics.viewCount) * (this.sort.order ? 1 : -1);
+                    return (a.statistics.viewCount - b.statistics.viewCount) * (order ? 1 : -1);
                     break;
                 default:
-                    return null;
+                    return 0;
             }
         },
         // CSVファイルダウンロード
