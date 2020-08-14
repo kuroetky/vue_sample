@@ -26,7 +26,9 @@
                 <label for="sortKey">ソート項目</label>
                 <select v-model="sort.key" id="sortKey">
                     <option value="subscriberCount">登録者数</option>
-                    <option value="viewCount">再生回数</option>
+                    <option value="viewCount">総再生回数</option>
+                    <option value="videoCount">動画投稿本数</option>
+                    <option value="publishedAt">チャンネル開設日</option>
                 </select>
                 <label for="sortOrder">昇順降順</label>
                 <select v-model="sort.order" id="sortOrder">
@@ -40,10 +42,12 @@
                     <thead class="thead-light">
                         <tr style="text-align: center;">
                             <th style="width: 10%;">画像</th>
-                            <th style="width: 15%;">チャンネル名</th>
+                            <th style="width: 12%;">チャンネル名</th>
                             <th style="width: 10%;">登録者数</th>
                             <th style="width: 10%;">再生回数</th>
-                            <th style="width: 40%;">チャンネル内容</th>
+                            <th style="width: 9%;">投稿本数</th>
+                            <th style="width: 25%;">チャンネル内容</th>
+                            <th style="width: 19%">チャンネル開設日</th>
                             <th style="width: 5%;" ></th>
                         </tr>
                     </thead>
@@ -56,12 +60,14 @@
                             </td>
                             <td>{{ channel.snippet.title }}</td>
                             <td>{{ channel.statistics.subscriberCount }}</td>
-                            <td>{{ channel.statistics.viewCount}}</td>
+                            <td>{{ channel.statistics.viewCount }}</td>
+                            <td>{{ channel.statistics.videoCount }}</td>
                             <td>
                                 <span class="desc">
                                     {{ channel.snippet.description }}
                                 </span>
                             </td>
+                            <td>{{ channel.snippet.publishedAt | datetimeConvert }}</td>
                             <td>
                                 <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title" target="_blank"><i class="fab fa-google fa-2x"></i></a><br>
                                 <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title" target="_blank"><i class="fab fa-amazon fa-2x"></i></a>

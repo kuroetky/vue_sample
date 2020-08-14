@@ -1,26 +1,30 @@
 var vm = new Vue({
     el: '#app',
     data: {
-        apiKey: '',
+        apiKey: '', // API Key
         keyword: '', // 直前に検索したキーワードを保存しておく
         results: null,
+        // YouTube Data APIのリクエストパラメータ
         params: {
+            // チャンネルを取得(Search: list)
             channel: {
-                q: '',
+                q: '', // 検索ワード
                 part: 'snippet',
                 type: 'channel',
-                maxResults: '10',
-                key: ''
+                maxResults: '50',
+                key: '' // API Key
             },
+            // チャンネルの統計情報を取得(Channel: list)
             statistics: {
                 part: 'snippet,statistics',
-                id: '',
-                key: ''
+                id: '',  // チャンネルID
+                key: '' // API Key
             }
         },
         sort: {
-            key: '',
-            order: ''
+            // デフォルトで登録者数、昇順を選択
+            key: 'subscriberCount',
+            order: 'asc'
         }
     },
     methods: {
@@ -28,7 +32,6 @@ var vm = new Vue({
         searchChannels: function () {
             // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
             if(this.params.channel.q == this.keyword) {
-                console.log('log1: ' + this.sort.order);
                 this.results = this.results.slice().sort(this.compareFunc);
             } else {
                 var own = this;
@@ -43,7 +46,7 @@ var vm = new Vue({
                             channelIds.push(item.id.channelId);
                         }
                         console.log(channelIds);
-                        own.searchChannelStatistics(channelIds);
+                        own.results = own.searchChannelStatistics(channelIds);
                     })
                     .catch(function (err) {
                         console.log(err);
@@ -60,10 +63,7 @@ var vm = new Vue({
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
                     // ソートキーに従ってソートする。デフォルトは検索時の結果をそのまま返す。
-                    console.log(own.sort.key);
-                    console.log(own.sort.order);
-                    own.results = res.data.items.sort(own.compareFunc);
-                    console.log(own.results);
+                    return res.data.items.sort(own.compareFunc);
                 })
                 .catch(function (err) {
                     console.log(err);
@@ -75,10 +75,12 @@ var vm = new Vue({
             switch(this.sort.key) {
                 case 'subscriberCount':
                     return (a.statistics.subscriberCount - b.statistics.subscriberCount) * (order ? 1 : -1);
-                    break;
                 case 'viewCount':
                     return (a.statistics.viewCount - b.statistics.viewCount) * (order ? 1 : -1);
-                    break;
+                case 'videoCount':
+                    return (a.statistics.videoCount - b.statistics.videoCount) * (order ? 1 : -1);
+                case 'publishedAt':
+                    return (new Date(a.snippet.publishedAt) - new Date(b.snippet.publishedAt)) * (order ? 1 : -1);
                 default:
                     return 0;
             }
@@ -100,6 +102,16 @@ var vm = new Vue({
             link.href = window.URL.createObjectURL(blob);
             link.download = 'Result.csv';
             link.click();
+        }
+    },
+    filters: {
+        // APIで取得した日時を年月日に変換
+        datetimeConvert: function(date) {
+            var dateObj = new Date(date);
+            var year = dateObj.getFullYear();
+            var month = dateObj.getMonth() + 1;
+            var day = dateObj.getDate();
+            return (year + "年" + month + "月" + day + "日");
         }
     }
 });
