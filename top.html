@@ -6,7 +6,8 @@
     <title>activity-log</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <link rel="stylesheet" type="text/css" href="css/top.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/top.css" />
 </head>
 
 <body>
@@ -51,8 +52,8 @@
                                 </span>
                             </td>
                             <td>
-                                <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title" target="_blank">さらに詳しく検索</a><br>
-                                <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title" target="_blank">amazonでグッズを見る</a>
+                                <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title" target="_blank"><i class="fab fa-google fa-2x"></i></a><br>
+                                <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title" target="_blank"><i class="fab fa-amazon fa-2x"></i></a>
                             </td>
                         </tr>
                     </tbody>
