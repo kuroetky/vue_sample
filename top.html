@@ -22,7 +22,14 @@
                 <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;" />
                 <input type="text" v-model="params.channel.q" style="width: 30%;" />
                 <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
-                <br><br><br>
+                <br>
+                <label for="default">キーワード関連度</label>
+                <input type="radio" id="default" value="default" v-model="sortKey" />
+                <label for="subscriberCount">登録者数</label>
+                <input type="radio" id="subscriberCount" value="subscriberCount" v-model="sortKey" />
+                <label for="viewCount">総再生回数</label>
+                <input type="radio" id="viewCount" value="viewCount" v-model="sortKey" />
+                <br><br>
             </div>
             <div>
                 <table class="table sticky_table" style="table-layout: fixed; word-wrap: break-word;">

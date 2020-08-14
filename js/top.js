@@ -16,7 +16,8 @@ var vm = new Vue({
                 id: '',
                 key: ''
             }
-        }
+        },
+        sortKey: 'default'
     },
     methods: {
         // チャンネル検索(Search :list)
@@ -47,16 +48,27 @@ var vm = new Vue({
             axios
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
-                    // デフォルトで登録者数順(降順)にソートする
-                    own.results = res.data.items.sort(own.defaultCompareFunc);
+                    // ソートキーに従ってソートする。デフォルトは検索時の結果をそのまま返す。
+                    own.results = res.data.items.sort(own.compareFunc);
                 })
                 .catch(function (err) {
                     console.log(err);
                 });
         },
-        defaultCompareFunc: function (a, b) {
-            return b.statistics.subscriberCount - a.statistics.subscriberCount;
+        // 比較関数
+        compareFunc: function (a, b) {
+            switch(this.sortKey) {
+                case 'subscriberCount':
+                    return b.statistics.subscriberCount - a.statistics.subscriberCount;
+                    break;
+                case 'viewCount':
+                    return b.statistics.viewCount - a.statistics.viewCount;
+                    break;
+                default:
+                    return null;
+            }
         },
+        // CSVファイルダウンロード
         downloadCSV: function () {
             var csv = '\ufeff' + 'チャンネルURL,YouTuber名,登録者数,再生回数,チャンネル内容\n'
             this.results.forEach(el => {
