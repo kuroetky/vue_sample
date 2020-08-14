@@ -17,7 +17,10 @@ var vm = new Vue({
                 key: ''
             }
         },
-        sortKey: 'default'
+        sort: {
+            sortKey: 'keyword',
+            order: false // 昇順ならtrue, 降順ならfalse
+        }
     },
     methods: {
         // チャンネル検索(Search :list)
@@ -49,7 +52,10 @@ var vm = new Vue({
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
                     // ソートキーに従ってソートする。デフォルトは検索時の結果をそのまま返す。
+                    console.log(own.sort.sortKey);
+                    console.log(own.sort.order);
                     own.results = res.data.items.sort(own.compareFunc);
+                    console.log(own.results);
                 })
                 .catch(function (err) {
                     console.log(err);
@@ -57,12 +63,12 @@ var vm = new Vue({
         },
         // 比較関数
         compareFunc: function (a, b) {
-            switch(this.sortKey) {
+            switch(this.sort.sortKey) {
                 case 'subscriberCount':
-                    return b.statistics.subscriberCount - a.statistics.subscriberCount;
+                    return (a.statistics.subscriberCount - b.statistics.subscriberCount) * (this.sort.order ? 1 : -1);
                     break;
                 case 'viewCount':
-                    return b.statistics.viewCount - a.statistics.viewCount;
+                    return (a.statistics.viewCount - b.statistics.viewCount) * (this.sort.order ? 1 : -1);
                     break;
                 default:
                     return null;

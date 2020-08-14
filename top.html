@@ -23,12 +23,17 @@
                 <input type="text" v-model="params.channel.q" style="width: 30%;" />
                 <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
                 <br>
-                <label for="default">キーワード関連度</label>
-                <input type="radio" id="default" value="default" v-model="sortKey" />
-                <label for="subscriberCount">登録者数</label>
-                <input type="radio" id="subscriberCount" value="subscriberCount" v-model="sortKey" />
-                <label for="viewCount">総再生回数</label>
-                <input type="radio" id="viewCount" value="viewCount" v-model="sortKey" />
+                <label for="sortKey">ソート項目</label>
+                <select v-model="sort.sortKey" id="sortKey">
+                    <option value="keyword">キーワード関連度</option>
+                    <option value="subscriberCount">登録者数</option>
+                    <option value="viewCount">再生回数</option>
+                </select>
+                <label for="order">昇順降順</label>
+                <select v-model="sort.order" id="order">
+                    <option value=true>昇順</option>
+                    <option value=false>降順</option>
+                </select>
                 <br><br>
             </div>
             <div>
