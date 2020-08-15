@@ -24,3 +24,6 @@ h2 {
   /* tbody内のセルより手前に表示する */
   z-index: 1;
 }
+.sticky_table tbody tr:nth-child(even) {
+  background: #fcf7ff;
+}
