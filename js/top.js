@@ -46,7 +46,7 @@ var vm = new Vue({
                             channelIds.push(item.id.channelId);
                         }
                         console.log(channelIds);
-                        own.results = own.searchChannelStatistics(channelIds);
+                        own.searchChannelStatistics(channelIds);
                     })
                     .catch(function (err) {
                         console.log(err);
@@ -63,7 +63,7 @@ var vm = new Vue({
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
                     // ソートキーに従ってソートする。デフォルトは検索時の結果をそのまま返す。
-                    return res.data.items.sort(own.compareFunc);
+                    own.results = res.data.items.sort(own.compareFunc);
                 })
                 .catch(function (err) {
                     console.log(err);
