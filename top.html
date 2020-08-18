@@ -6,8 +6,9 @@
     <title>YouTuber Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="css/top.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/top.css" />
 </head>
 
 <body>
@@ -15,26 +16,27 @@
         <div style="text-align: right;">
             <button class="btn btn-secondary" style="width: 140px;">チャットルーム</button>
             <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
+            <button class="btn btn-secondary" style="width: 140px;">チーム開発</button>
         </div>
         <div id="activity-log">
-            <div style="text-align: center;"><img src="img/logo.png" alt="YouTuber検索" width="400"></div>
+            <div style="text-align: center; margin-top: 20px;"><img src="img/logo.png" alt="YouTuber検索" width="400"></div>
             <div class="col-lg" style="text-align: center;">
-                <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;" />
-                <input type="text" v-model="params.channel.q" style="width: 30%;" />
-                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;height: 35px;margin-bottom: 10px;" />
                 <br>
-                <label for="sortKey">ソート項目</label>
-                <select v-model="sort.key" id="sortKey">
-                    <option value="subscriberCount">登録者数</option>
-                    <option value="viewCount">総再生回数</option>
-                    <option value="videoCount">動画投稿本数</option>
-                    <option value="publishedAt">チャンネル開設日</option>
-                </select>
-                <label for="sortOrder">昇順降順</label>
-                <select v-model="sort.order" id="sortOrder">
-                    <option value="asc">昇順</option>
-                    <option value="desc">降順</option>
-                </select>
+                <div >
+                    <input type="text" v-model="params.channel.q" style="width: 30%; height: 35px;" />
+                    <select v-model="sort.key" id="sortKey" style="height: 35px;">
+                        <option value="subscriberCount">登録者数</option>
+                        <option value="viewCount">総再生回数</option>
+                        <option value="videoCount">動画投稿本数</option>
+                        <option value="publishedAt">チャンネル開設日</option>
+                    </select>
+                    <select v-model="sort.order" id="sortOrder" style="height: 35px;">
+                        <option value="asc">昇順</option>
+                        <option value="desc">降順</option>
+                    </select>
+                    <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                </div>
                 <br><br>
             </div>
             <div>
@@ -47,9 +49,9 @@
                             <th style="width: 10%;">登録者数</th>
                             <th style="width: 12%;">再生回数</th>
                             <th style="width: 9%;">投稿本数</th>
-                            <th style="width: 28%;">チャンネル内容</th>
-                            <th style="width: 13%">開設日</th>
-                            <th style="width: 5%;" ></th>
+                            <th style="width: 27%;">チャンネル内容</th>
+                            <th style="width: 14%">開設日</th>
+                            <th style="width: 5%;"></th>
                         </tr>
                     </thead>
                     <tbody v-show="results">
@@ -70,8 +72,10 @@
                             </td>
                             <td>{{ channel.snippet.publishedAt | datetimeConvert }}</td>
                             <td>
-                                <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title" target="_blank"><i class="fab fa-google fa-2x"></i></a><br>
-                                <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title" target="_blank"><i class="fab fa-amazon fa-2x"></i></a>
+                                <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title"
+                                    target="_blank"><i class="fab fa-google fa-2x"></i></a><br>
+                                <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title"
+                                    target="_blank"><i class="fab fa-amazon fa-2x"></i></a>
                             </td>
                         </tr>
                     </tbody>

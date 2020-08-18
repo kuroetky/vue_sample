@@ -29,6 +29,14 @@ var vm = new Vue({
             order: 'asc'
         }
     },
+    watch: {
+        results: function () {
+            localStorage.setItem('results', JSON.stringify(this.results));
+        }
+    },
+    mounted: function () {
+        this.results = JSON.parse(localStorage.getItem('results')) || [];
+    },
     methods: {
         // チャンネル検索(Search :list)
         searchChannels: function () {
