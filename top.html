@@ -6,8 +6,9 @@
     <title>YouTuber Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="css/top.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/top.css" />
 </head>
 
 <body>
@@ -53,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody v-show="results">
-                        <tr v-for="channel in results">
+                        <tr v-for="channel in getResults">
                             <td>
                                 <a v-bind:href="'https://www.youtube.com/channel/' + channel.id" target="_blank">
                                     <img width="88" height="88" v-bind:src="channel.snippet.thumbnails.default.url">
@@ -76,6 +77,16 @@
                         </tr>
                     </tbody>
                 </table>
+                <paginate
+                  v-show="results"
+                  :page-count="getPageCount"
+                  :page-range="3"
+                  :margin-pages="2"
+                  :click-handler="clickCallback"
+                  :prev-text="'<'"
+                  :next-text="'>'"
+                  :container-class="'pagination'">
+                </paginate>
             </div>
         </div>
     </div>
@@ -90,6 +101,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vuejs-paginate@latest"></script>
     <script src="js/top.js"></script>
 </body>
 

@@ -1,3 +1,6 @@
+// ページネーションを使えるようにする
+Vue.component('paginate', VuejsPaginate);
+
 var vm = new Vue({
     el: '#app',
     data: {
@@ -26,6 +29,12 @@ var vm = new Vue({
             // デフォルトで登録者数、昇順を選択
             key: 'subscriberCount',
             order: 'asc'
+        },
+        pagination: {
+            // 初期ページ番号
+            currentPage: 1,
+            // アイテム数 / ページ
+            parPage: 10
         }
     },
     methods: {
@@ -104,6 +113,10 @@ var vm = new Vue({
             link.href = window.URL.createObjectURL(blob);
             link.download = 'Result.csv';
             link.click();
+        },
+        // ページネーションククリック時の処理
+        clickCallback: function (pageNum) {
+            this.pagination.currentPage = Number(pageNum);
         }
     },
     filters: {
@@ -114,6 +127,24 @@ var vm = new Vue({
             var month = dateObj.getMonth() + 1;
             var day = dateObj.getDate();
             return (year + "年" + month + "月" + day + "日");
+        }
+    },
+    computed: {
+        getResults: function () {
+            if (this.results != null) {
+                var current = this.pagination.currentPage * this.pagination.parPage;
+                var start = current - this.pagination.parPage;
+                return this.results.slice(start, current);
+            } else {
+              return null;
+            }
+        },
+        getPageCount: function() {
+            if (this.results != null) {
+                return Math.ceil(this.results.length / this.pagination.parPage);
+            } else {
+              return null;
+            }
         }
     }
 });
