@@ -31,6 +31,10 @@ var vm = new Vue({
             key: 'subscriberCount',
             order: 'asc'
         },
+        filter: {
+            key: 'subscriberCount',
+            value: 10000
+        },
         pagination: {
             // 初期ページ番号
             currentPage: 1,
@@ -127,6 +131,15 @@ var vm = new Vue({
         // ページネーションククリック時の処理
         clickCallback: function (pageNum) {
             this.pagination.currentPage = Number(pageNum);
+        },
+        // フィルタリング時の比較関数
+        getFilteredResults: function(result) {
+            switch (this.filter.key) {
+              case 'subscriberCount':
+                  return result.statistics.subscriberCount <= this.filter.value;
+              default:
+                  return result;
+            }
         }
     },
     filters: {
@@ -140,20 +153,34 @@ var vm = new Vue({
         }
     },
     computed: {
+        // 結果表示
         getResults: function () {
             if (this.results != null) {
                 var current = this.pagination.currentPage * this.pagination.parPage;
                 var start = current - this.pagination.parPage;
-                return this.results.slice(start, current);
+                // フィルタリングするかどうか
+                if (this.filter.key != null) {
+                    var filteredResults = this.results.filter(this.getFilteredResults);
+                    return filteredResults.slice(start, current);
+                } else {
+                    return this.results.slice(start, current);
+                }
             } else {
               return null;
             }
         },
+        // ページ数取得
         getPageCount: function() {
             if (this.results != null) {
-                return Math.ceil(this.results.length / this.pagination.parPage);
+                // フィルタリングするかどうか
+                if (this.filter.key != null) {
+                    var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
+                    return Math.ceil(filteredResultsCount / this.pagination.parPage);
+                } else {
+                    return Math.ceil(this.result.length / this.pagination.parPage);
+                }
             } else {
-              return null;
+                return null;
             }
         }
     }
