@@ -13,7 +13,7 @@
 <body>
     <div id="app" class="container">
         <div style="text-align: right;">
-            <button class="btn btn-secondary" style="width: 140px;">チャットルーム</button>
+            <button class="btn btn-secondary" style="width: 140px;" a hlef="#" v-on:click.stop.prevent="openWindow">チャットルーム</button>
             <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
         </div>
         <div id="activity-log">
@@ -22,6 +22,7 @@
                 <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;" />
                 <input type="text" v-model="params.channel.q" style="width: 30%;" />
                 <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                <button v-on:click="omikujiSearch" class="btn btn-danger mr-2" style="width: 100px;">おみくじ</button>
                 <br>
                 <label for="sortKey">ソート項目</label>
                 <select v-model="sort.key" id="sortKey">
