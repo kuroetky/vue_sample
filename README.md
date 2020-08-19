@@ -1,6 +1,7 @@
 # vue_sample by Oi6
 This app can search YouTuber.
 
+(VS Code Live Share Trial Session on 8/19/2020)
 - Ku** が入りました！
 - Ka** OKです
 - Nas** です。できたっぽいです
