@@ -1,61 +1,97 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
+
 <head>
-<meta charset="UTF-8" />
-<title>Vue.js</title>
-      <style>
-        app {
-            background-color: #ffa500;
-              width: 500px;
-          height: 200px;
-        }
- 
-        menu1 {
-            background-color: #ffa500;
-              width: 500px;
-          height: 200px;
-          margin: 20px;
-        }
-                menu2 {
-                  
-            background-color: #ffa500;
-              width: 500px;
-          height: 200px;
-          margin: 20px;
-        }
- 
-        .first-sentence {
-            font-weight: bold;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <title>YouTuber Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/top.css" />
 </head>
+
 <body>
-<div id="app" bgcolor="#ffa500" width="350">
-  Youtuber検索アプリ 
-</div>
-  <p><span class="menu1"　bgcolor="#ffa500" width="150">テキストボックス</span><span class="menu1" bgcolor="#ffa500" width="150">▼人気順</span><span class="menu1" bgcolor="#ffa500" width="150">検索</span></p>
-  <p><span class="menu2" bgcolor="#ffa500" width="150">動画DL</span><span class="menu2" bgcolor="#ffa500" width="150">PDF, CSV, DL</span></p>
-  <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
-<tr>
-
-<th bgcolor="#FFFFFF" width="150">youtuber画像</th>
-<th bgcolor="#FFFFFF" width="200">Youtuber情報<br>
-最近の動画、SNSリンクなど
-</font></th>
-</tr>
-<tr>
-
-<td bgcolor="#FFFFFF" valign="top" width="150">youtuber画像</td>
-<td bgcolor="#FFFFFF" valign="top" width="200">youtuber情報</td>
-</tr>
-<tr>
-
-<td bgcolor="#FFFFFF" valign="top" width="150">youtuber画像</td>
-<td bgcolor="#FFFFFF" valign="top" width="200">youtuber情報</td>
-</tr>
-</table>
-  
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
-<script src="js/kanmuri.js"></script>
+    <div id="app" class="container">
+        <div style="text-align: right;">
+            <button class="btn btn-secondary" style="width: 140px;">チャットルーム</button>
+            <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
+        </div>
+        <div id="activity-log">
+            <h1>YouTuber 検索アプリ</h1>
+            <div class="col-lg" style="text-align: center;">
+                <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;" />
+                <input type="text" v-model="params.channel.q" style="width: 30%;" />
+                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                <button v-on:click="omikujiSearch" class="btn btn-danger mr-2" style="width: 100px;">おみくじ</button>
+                <br>
+                <label for="sortKey">ソート項目</label>
+                <select v-model="sort.key" id="sortKey">
+                    <option value="subscriberCount">登録者数</option>
+                    <option value="viewCount">総再生回数</option>
+                    <option value="videoCount">動画投稿本数</option>
+                    <option value="publishedAt">チャンネル開設日</option>
+                </select>
+                <label for="sortOrder">昇順降順</label>
+                <select v-model="sort.order" id="sortOrder">
+                    <option value="asc">昇順</option>
+                    <option value="desc">降順</option>
+                </select>
+                <br><br>
+            </div>
+            <div>
+                <p v-show="totalResults">TOTAL: {{ totalResults }}件</p>
+                <table class="table sticky_table" style="table-layout: fixed; word-wrap: break-word;">
+                    <thead class="thead-light">
+                        <tr style="text-align: center;">
+                            <th style="width: 10%;">画像</th>
+                            <th style="width: 13%;">チャンネル名</th>
+                            <th style="width: 10%;">登録者数</th>
+                            <th style="width: 12%;">再生回数</th>
+                            <th style="width: 9%;">投稿本数</th>
+                            <th style="width: 28%;">チャンネル内容</th>
+                            <th style="width: 13%">開設日</th>
+                            <th style="width: 5%;" ></th>
+                        </tr>
+                    </thead>
+                    <tbody v-show="results">
+                        <tr v-for="channel in results">
+                            <td>
+                                <a v-bind:href="'https://www.youtube.com/channel/' + channel.id" target="_blank">
+                                    <img width="88" height="88" v-bind:src="channel.snippet.thumbnails.default.url">
+                                </a>
+                            </td>
+                            <td>{{ channel.snippet.title }}</td>
+                            <td>{{ channel.statistics.subscriberCount }}</td>
+                            <td>{{ channel.statistics.viewCount }}</td>
+                            <td>{{ channel.statistics.videoCount }}</td>
+                            <td>
+                                <span class="desc">
+                                    {{ channel.snippet.description }}
+                                </span>
+                            </td>
+                            <td>{{ channel.snippet.publishedAt | datetimeConvert }}</td>
+                            <td>
+                                <a v-bind:href="'https://www.google.com/search?q=' + channel.snippet.title" target="_blank"><i class="fab fa-google fa-2x"></i></a><br>
+                                <a v-bind:href="'https://www.amazon.co.jp/s?k=' + channel.snippet.title" target="_blank"><i class="fab fa-amazon fa-2x"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/top.js"></script>
 </body>
+
 </html>

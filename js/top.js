@@ -21,7 +21,9 @@ var vm = new Vue({
                 part: 'snippet,statistics',
                 id: '',  // チャンネルID
                 key: '' // API Key
-            }
+            },
+            // おみくじの配列
+            omikuji: ['ラジコンカー','ねこまんま','怪獣映画','四書五経','文房具屋','無抵抗','リラクゼーション','健康診断','カーブミラー','寝ぼけ','堆積岩','損害保険','コーヒー牛乳','帝釈天','化物','同調圧力','極楽浄土','春巻き','マラカス','初日の出','邪魔者','修行僧','月','自縄自縛','彗星','センセーション','3連休','地震雲','打ち出の小槌','ミーアキャット','狼男','栄養価','マヨネーズ','避難警報','カッシーニの間隙','準備運動','写真','テニス','社会人','タイムマシン','ひつじ','プロビデンスの目','パスタ','リンク','スケッチ','もち','ウォシュレット','気温','フォーメーション','別れ際']
         },
         sort: {
             // デフォルトで登録者数、昇順を選択
@@ -114,6 +116,38 @@ var vm = new Vue({
             link.href = window.URL.createObjectURL(blob);
             link.download = 'Result.csv';
             link.click();
+        },
+        // おみくじ検索(Search :list)
+        omikujiSearch: function () {
+            // 検索ワードとしておみくじ配列からランダムで取得
+            this.params.channel.q = Math.floor(Math.random() * this.params.channel.omikuji.length);
+            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
+            if(this.params.channel.q == this.keyword) {
+                this.results = this.results.slice().sort(this.compareFunc);
+            } else {
+                var own = this;
+                this.params.channel.key = this.apiKey;
+                this.keyword = this.params.channel.q;
+                // YouTube Data API実行
+                axios
+                    .get('https://www.googleapis.com/youtube/v3/search', {params: this.params.channel})
+                    .then(function (res) {
+                        var channelIds = [];
+                        for(item of res.data.items) {
+                            channelIds.push(item.id.channelId);
+                        }
+                        console.log(channelIds);
+                        own.searchChannelStatistics(channelIds);
+                        own.totalResults = res.data.pageInfo.totalResults;
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+            }
+        },
+        openWindow: function() {
+            const url = "https://authtest-67ba4.web.app/#/signin"
+            window.open(url, '_blank', 'width=1024,height=768,scrollbars=yes,resizable=yes')
         }
     },
     filters: {
