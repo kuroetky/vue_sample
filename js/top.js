@@ -4,6 +4,7 @@ var vm = new Vue({
         apiKey: '', // API Key
         keyword: '', // 直前に検索したキーワードを保存しておく
         results: null,
+        rowCounts: null,
         totalResults: null,
         // YouTube Data APIのリクエストパラメータ
         params: {
@@ -30,6 +31,14 @@ var vm = new Vue({
             order: 'asc'
         }
     },
+    watch: {
+        results: function () {
+            localStorage.setItem('results', JSON.stringify(this.results));
+        }
+    },
+    mounted: function () {
+        this.results = JSON.parse(localStorage.getItem('results')) || [];
+    },
     methods: {
         // チャンネル検索(Search :list)
         searchChannels: function () {
@@ -50,6 +59,7 @@ var vm = new Vue({
                         }
                         console.log(channelIds);
                         own.searchChannelStatistics(channelIds);
+                        own.rowCounts = res.data.items.length;
                         own.totalResults = res.data.pageInfo.totalResults;
                     })
                     .catch(function (err) {
