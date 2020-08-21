@@ -59,7 +59,7 @@ var vm = new Vue({
     methods: {
         // チャンネル検索(Search :list)
         searchChannels: function () {
-            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
+            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsを加工する
             if(this.params.channel.q == this.keyword) {
                 this.processResults();
             } else {
@@ -93,7 +93,9 @@ var vm = new Vue({
             axios
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
+                    // 検索結果の生データを保存
                     own.results = res.data.items;
+                    // 検索結果を加工
                     own.processResults();
                 })
                 .catch(function (err) {
@@ -110,7 +112,7 @@ var vm = new Vue({
             processedResults = processedResults.filter(this.getFilteredResults);
             this.processedResults = processedResults.slice(start, current);
         },
-        // 比較関数
+        // ソート時の比較関数
         compareFunc: function (a, b) {
             var order = this.sort.order == "asc" ? true : false;
             switch(this.sort.key) {
