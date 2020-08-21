@@ -59,6 +59,8 @@ var vm = new Vue({
     methods: {
         // チャンネル検索(Search :list)
         searchChannels: function () {
+            // ページを1ページ目に戻す
+            this.pagination.currentPage = 1;
             // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsを加工する
             if(this.params.channel.q == this.keyword) {
                 this.processResults();
@@ -110,6 +112,7 @@ var vm = new Vue({
             var processedResults = this.results.sort(this.compareFunc);
             // フィルタキーに従ってソートする。
             processedResults = processedResults.filter(this.getFilteredResults);
+            // currentページの件数のみ加工データとして保存
             this.processedResults = processedResults.slice(start, current);
         },
         // ソート時の比較関数
@@ -130,6 +133,7 @@ var vm = new Vue({
         },
         // フィルタリング時の比較関数
         getFilteredResults: function(result) {
+            // 以上
             if (this.filter.order == 'more') {
               switch (this.filter.key) {
                   case 'subscriberCount':
@@ -141,6 +145,7 @@ var vm = new Vue({
                   default:
                       return true;
               }
+            // 以下
             } else {
                 switch (this.filter.key) {
                     case 'subscriberCount':
