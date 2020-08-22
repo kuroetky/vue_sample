@@ -185,7 +185,7 @@ var vm = new Vue({
             link.click();
         },
         // おみくじ検索(Search :list)
-        omikujiSearch: function () {
+        omikujiSearch: function() {
             // 検索ワードとしておみくじ配列からランダムで取得
             this.params.channel.q = this.omikuji[Math.floor(Math.random() * this.omikuji.length)];
             this.searchChannels();
