@@ -1,0 +1,112 @@
+html, body {
+	height:100%;
+}
+body {
+	width: 100%;
+	background: white;
+	/* background: #b1e583; */
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#header{
+	position: absolute;
+	z-index: 2000;
+	width: 150px;
+	top: 50px;
+}
+#header h1{
+	font-size: 20px;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.9);
+	text-shadow: 0px 1px 1px rgba(0,0,0,0.3);
+	padding: 20px;
+	background: red;
+}
+#navigation {
+	margin-top: 20px;
+	width: 150px;
+	display:block;
+	list-style:none;
+	z-index:3;
+}
+#navigation a{
+	color: white;
+	display: block;
+	background: blue;
+	/* background: rgba(255,255,255,0.9); */
+	line-height: 50px;
+	padding: 0px 20px;
+	text-transform: uppercase;
+	margin-bottom: 6px;
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+	font-size: 14px;
+}
+#navigation a:hover {
+	background: rgb(43, 133, 252);
+}
+.content{
+	right: 40px;
+	left: 280px;
+	top: 0px;
+	position: absolute;
+	padding-bottom: 30px;
+}
+.content h2{
+	font-size: 60px;
+	padding: 10px 0px 20px 0px;
+	margin-top: 52px;
+	color:blue;
+	/* color: rgba(255,255,255,0.9); */
+	text-shadow: 0px 2px 2px rgba(0,0,0,0.3);
+}
+.content p{
+	font-size: 18px;
+	padding: 10px;
+	line-height: 24px;
+	color: black;
+	/* display: inline-block; */
+	background: white;
+	padding: 10px;
+	margin: 3px 0px;
+}
+
+.content ul li{
+	font-size: 18px;
+	padding: 10px;
+	line-height: 24px;
+	color: black;
+	/* display: inline-block; */
+	background: white;
+	padding: 10px;
+	margin: 3px 0px;
+	list-style-type: square;
+
+}
+
+.panel{
+	width: 100%;
+	min-height: 100%;
+	position: absolute;
+	background-color: white;
+	/* box-shadow: 4px -4px 4px rgba(0,0,0,0.2); */
+	margin-left: -102%;
+	z-index:2;
+	-webkit-transition: all .6s ease-in-out;
+	-moz-transition: all .6s ease-in-out;
+	-o-transition: all .6s ease-in-out;
+	-ms-transition: all .6s ease-in-out;
+	transition: all .6s ease-in-out;
+}
+.panel:target{
+	margin-left: 0%;
+	background-color: white;
+}
+#home:target ~ #header #navigation #link-home,
+#archi:target ~ #header #navigation #link-archi,
+#commit:target ~ #header #navigation #link-commit,
+#review:target ~ #header #navigation #link-review,
+#matome:target ~ #header #navigation #link-matome{
+	background: #000;
+	color: #fff;
+}

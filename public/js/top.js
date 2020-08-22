@@ -193,6 +193,10 @@ var vm = new Vue({
         openWindow: function() {
             const url = "https://authtest-67ba4.web.app/#/signin"
             window.open(url, '_blank', 'width=1024,height=768,scrollbars=yes,resizable=yes')
+        },
+        openWindowTD: function() {
+            const url = "repo/index.html"
+            window.open(url, '_blank', 'scrollbars=yes,resizable=yes')
         }
     },
     filters: {
