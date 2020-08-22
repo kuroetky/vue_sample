@@ -7,6 +7,7 @@ var vm = new Vue({
         apiKey: '', // API Key
         keyword: '', // 直前に検索したキーワードを保存しておく
         results: null,
+        processedResults: null,
         rowCounts: null,
         totalResults: null,
         // YouTube Data APIのリクエストパラメータ
@@ -33,6 +34,11 @@ var vm = new Vue({
             key: 'subscriberCount',
             order: 'asc'
         },
+        filter: {
+            key: 'none',
+            value: 0,
+            order: 'more'
+        },
         pagination: {
             // 初期ページ番号
             currentPage: 1,
@@ -43,17 +49,23 @@ var vm = new Vue({
     watch: {
         results: function () {
             localStorage.setItem('results', JSON.stringify(this.results));
+        },
+        processedResults: function () {
+            localStorage.setItem('processedResults', JSON.stringify(this.processedResults));
         }
     },
     mounted: function () {
         this.results = JSON.parse(localStorage.getItem('results')) || [];
+        this.processedResults = JSON.parse(localStorage.getItem('processedResults')) || [];
     },
     methods: {
         // チャンネル検索(Search :list)
         searchChannels: function () {
-            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
+            // ページを1ページ目に戻す
+            this.pagination.currentPage = 1;
+            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsを加工する
             if(this.params.channel.q == this.keyword) {
-                this.results = this.results.slice().sort(this.compareFunc);
+                this.processResults();
             } else {
                 var own = this;
                 this.params.channel.key = this.apiKey;
@@ -85,14 +97,27 @@ var vm = new Vue({
             axios
                 .get('https://www.googleapis.com/youtube/v3/channels', {params: this.params.statistics})
                 .then(function (res) {
-                    // ソートキーに従ってソートする。デフォルトは検索時の結果をそのまま返す。
-                    own.results = res.data.items.sort(own.compareFunc);
+                    // 検索結果の生データを保存
+                    own.results = res.data.items;
+                    // 検索結果を加工
+                    own.processResults();
                 })
                 .catch(function (err) {
                     console.log(err);
                 });
         },
-        // 比較関数
+        // 検索結果の加工
+        processResults: function () {
+            var current = this.pagination.currentPage * this.pagination.parPage;
+            var start = current - this.pagination.parPage;
+            // ソートキーに従ってソートする。
+            var processedResults = this.results.sort(this.compareFunc);
+            // フィルタキーに従ってソートする。
+            processedResults = processedResults.filter(this.getFilteredResults);
+            // currentページの件数のみ加工データとして保存
+            this.processedResults = processedResults.slice(start, current);
+        },
+        // ソート時の比較関数
         compareFunc: function (a, b) {
             var order = this.sort.order == "asc" ? true : false;
             switch(this.sort.key) {
@@ -107,6 +132,39 @@ var vm = new Vue({
                 default:
                     return 0;
             }
+        },
+        // フィルタリング時の比較関数
+        getFilteredResults: function(result) {
+            // 以上
+            if (this.filter.order == 'more') {
+              switch (this.filter.key) {
+                  case 'subscriberCount':
+                      return result.statistics.subscriberCount >= this.filter.value;
+                  case 'viewCount':
+                      return result.statistics.viewCount >= this.filter.value;
+                  case 'videoCount':
+                      return result.statistics.videoCount >= this.filter.value;
+                  default:
+                      return true;
+              }
+            // 以下
+            } else {
+                switch (this.filter.key) {
+                    case 'subscriberCount':
+                        return result.statistics.subscriberCount <= this.filter.value;
+                    case 'viewCount':
+                        return result.statistics.viewCount <= this.filter.value;
+                    case 'videoCount':
+                        return result.statistics.videoCount <= this.filter.value;
+                    default:
+                        return true;
+                }
+            }
+        },
+        // ページネーションククリック時の処理
+        clickCallback: function (pageNum) {
+            this.pagination.currentPage = Number(pageNum);
+            this.processResults();
         },
         // CSVファイルダウンロード
         downloadCSV: function () {
@@ -126,11 +184,8 @@ var vm = new Vue({
             link.download = 'Result.csv';
             link.click();
         },
-        // ページネーションククリック時の処理
-        clickCallback: function (pageNum) {
-            this.pagination.currentPage = Number(pageNum);
         // おみくじ検索(Search :list)
-        omikujiSearch: function () {
+        omikujiSearch: function() {
             // 検索ワードとしておみくじ配列からランダムで取得
             this.params.channel.q = Math.floor(Math.random() * this.params.channel.omikuji.length);
             // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
@@ -173,20 +228,13 @@ var vm = new Vue({
         }
     },
     computed: {
-        getResults: function () {
-            if (this.results != null) {
-                var current = this.pagination.currentPage * this.pagination.parPage;
-                var start = current - this.pagination.parPage;
-                return this.results.slice(start, current);
-            } else {
-              return null;
-            }
-        },
+        // ページ数取得
         getPageCount: function() {
             if (this.results != null) {
-                return Math.ceil(this.results.length / this.pagination.parPage);
+                var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
+                return Math.ceil(filteredResultsCount / this.pagination.parPage);
             } else {
-              return null;
+                return null;
             }
         }
     }

@@ -24,8 +24,9 @@
             <div class="col-lg" style="text-align: center;">
                 <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;height: 35px;margin-bottom: 10px;" />
                 <br>
-                <div >
-                    <input type="text" v-model="params.channel.q" style="width: 30%; height: 35px;" />
+                <input type="text" v-model="params.channel.q" style="width: 30%; height: 35px;margin-bottom: 10px;" />
+                <div style="margin-bottom: 10px;">
+                    ソート
                     <select v-model="sort.key" id="sortKey" style="height: 35px;">
                         <option value="subscriberCount">登録者数</option>
                         <option value="viewCount">総再生回数</option>
@@ -39,6 +40,21 @@
                     <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
                     <button v-on:click="omikujiSearch" class="btn btn-danger mr-2" style="width: 100px;">おみくじ</button>
                 </div>
+                <div style="margin-bottom: 10px;">
+                    フィルタ
+                    <select v-model="filter.key" id="filterKey" style="height: 35px;">
+                        <option value="none">-</option>
+                        <option value="subscriberCount">登録者数</option>
+                        <option value="viewCount">総再生回数</option>
+                        <option value="videoCount">動画投稿本数</option>
+                    </select>
+                    <input type="number" v-model.number="filter.value" style="height: 35px;"/>
+                    <select v-model="filter.order" id="filterOrder" style="height: 35px;">
+                        <option value="more">以上</option>
+                        <option value="less">以下</option>
+                    </select>
+                </div>
+                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
                 <br><br>
             </div>
             <div>
@@ -56,8 +72,8 @@
                             <th style="width: 5%;"></th>
                         </tr>
                     </thead>
-                    <tbody v-show="results">
-                        <tr v-for="channel in getResults">
+                    <tbody v-show="processedResults">
+                        <tr v-for="channel in processedResults">
                             <td>
                                 <a v-bind:href="'https://www.youtube.com/channel/' + channel.id" target="_blank">
                                     <img width="88" height="88" v-bind:src="channel.snippet.thumbnails.default.url">
@@ -83,7 +99,7 @@
                     </tbody>
                 </table>
                 <paginate
-                  v-show="results"
+                  v-show="processedResults"
                   :page-count="getPageCount"
                   :page-range="3"
                   :margin-pages="2"
