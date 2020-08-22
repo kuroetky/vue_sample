@@ -185,32 +185,10 @@ var vm = new Vue({
             link.click();
         },
         // おみくじ検索(Search :list)
-        omikujiSearch: function() {
+        omikujiSearch: function () {
             // 検索ワードとしておみくじ配列からランダムで取得
-            this.params.channel.q = Math.floor(Math.random() * this.params.channel.omikuji.length);
-            // 直前に検索したキーワードを再度検索する場合はAPIを叩かず、既存のresultsをソートする
-            if(this.params.channel.q == this.keyword) {
-                this.results = this.results.slice().sort(this.compareFunc);
-            } else {
-                var own = this;
-                this.params.channel.key = this.apiKey;
-                this.keyword = this.params.channel.q;
-                // YouTube Data API実行
-                axios
-                    .get('https://www.googleapis.com/youtube/v3/search', {params: this.params.channel})
-                    .then(function (res) {
-                        var channelIds = [];
-                        for(item of res.data.items) {
-                            channelIds.push(item.id.channelId);
-                        }
-                        console.log(channelIds);
-                        own.searchChannelStatistics(channelIds);
-                        own.totalResults = res.data.pageInfo.totalResults;
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                    });
-            }
+            this.params.channel.q = this.omikuji[Math.floor(Math.random() * this.omikuji.length)];
+            this.searchChannels();
         },
         openWindow: function() {
             const url = "https://authtest-67ba4.web.app/#/signin"
