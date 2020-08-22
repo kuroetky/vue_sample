@@ -58,7 +58,7 @@
                 <br><br>
             </div>
             <div>
-                <p v-show="rowCounts">総ヒット件数: {{ totalResults }}件中、 {{ rowCounts }}件を表示</p>
+                <p v-show="rowCounts">総ヒット件数（最大50件取得）: {{ totalResults }}件中、 フィルター後の{{ rowCounts }}件を表示</p>
                 <table class="table sticky_table" style="table-layout: fixed; word-wrap: break-word;">
                     <thead class="thead-light">
                         <tr style="text-align: center;">
