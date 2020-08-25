@@ -147,6 +147,8 @@ var vm = new Vue({
                       return result.statistics.viewCount >= this.filter.value;
                   case 'videoCount':
                       return result.statistics.videoCount >= this.filter.value;
+                  case 'publishedAt':
+                      return new Date(result.snippet.publishedAt) >= new Date(this.filter.value);
                   default:
                       return true;
               }
@@ -159,6 +161,8 @@ var vm = new Vue({
                         return result.statistics.viewCount <= this.filter.value;
                     case 'videoCount':
                         return result.statistics.videoCount <= this.filter.value;
+                    case 'publishedAt':
+                        return new Date(result.snippet.publishedAt) <=  new Date(this.filter.value);
                     default:
                         return true;
                 }
