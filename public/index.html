@@ -10,6 +10,7 @@
             integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/top.css" />
+    <link rel="stylesheet" type="text/css" href="css/TD.css" />
 </head>
 
 <body>
@@ -17,7 +18,8 @@
         <div style="text-align: right;">
             <button class="btn btn-secondary" style="width: 140px;" a hlef="#" v-on:click.stop.prevent="openWindow">チャットルーム</button>
             <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
-            <button class="btn btn-secondary" style="width: 140px;" v-on:click.stop.prevent="openWindowTD">チーム開発</button>
+            <button class="btn btn-secondary" style="width: 140px;" v-on:click="showTD">チーム開発</button>
+            <!-- <button class="btn btn-secondary" style="width: 140px;" v-on:click.stop.prevent="openWindowTD">チーム開発</button> -->
         </div>
         <div id="activity-log">
             <div style="text-align: center; margin-top: 20px;"><img src="img/logo.png" alt="YouTuber検索" width="400"></div>
@@ -110,7 +112,74 @@
                 </paginate>
             </div>
         </div>
+
+
+        <modal name="modal-area" :width="1000" :height="750">
+            <div class="modal-area-inner">
+                <carousel per-page="1">
+                    <slide>
+                        <h2>チーム開発</h2><br>
+                        <!-- <span class="label"> -->
+                            ＜コンセプト＞<br>
+                            フロントエンド開発<br>
+                            未経験の技術・ツールにチャレンジ<br><br>
+                            ＜ルール＞<br>
+                            チケット駆動開発<br>
+                            GitHub Flowの実践<br>
+                            Slackで情報連携<br>
+                        <!-- </span> -->
+                    </slide>
+            
+                    <slide>
+                        <h2>アーキテクチャ</h2><br>
+                        <!-- <span class="label"> -->
+                            <img src="repo/archi.png" width="800">
+                        <!-- </span> -->
+                    </slide>
+            
+                    <slide>
+                        <h2>コミット</h2><br>
+                        <!-- <span class="label"> -->
+                            <img src="repo/github_commit.png" width="800">
+                        <!-- </span> -->
+                    </slide>
+            
+                    <slide>
+                        <h2>軌跡</h2><br>
+                        <img src="repo/kiseki.png" width="600">
+                        <!-- <span class="label"> -->
+                            <!-- <ul>
+                            <li>7/22　何で作るか…Vue.js</li>
+                            <li>7/24　何を作るか…YouTuber検索</li>
+                            <li>7/31　ファーストコミット</li>
+                            <li>8/16　休日作業（共同レビュー、今後の方針確認）</li>
+                            <li>8/19　開発演習（KPT）</li>
+                            <li>8/21　開発演習（デモ）</li>
+                            <li>8/22　休日作業（コンフリクト解消、デバッグ）</li>
+                            <li>8/26　開発演習（開発最終日・デモ準備）</li>
+                            <li>8/28　成果発表</li>
+                            </ul> -->
+                        <!-- </span> -->
+                    </slide>
+                    <slide>
+                        <h2>まとめ</h2><br>
+                        <!-- <span class="label"> -->
+                            各自が興味ある分野を積極的に学んだ<br>
+                            成果を共有してチームに貢献できた<br>
+                            対面時以上に言葉づかいに気を付けた<br>
+                            よい雰囲気でコミュニケーションもスムーズに<br>
+                            新しい技術のエッセンスをメンバー全員が体験<br>
+                            Vueの熟練者がいなかった分、協力して開発できた<br>
+                            ツールを絞ってプロジェクトをコンパクトに運用<br>
+                            最後まで開発を楽しめた！<br>
+                        <!-- </span> -->
+                    </slide>
+                </carousel>
+            </div>
+        </modal>
+
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -123,6 +192,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vuejs-paginate@latest"></script>
+
+    <script src="https://ssense.github.io/vue-carousel/js/vue-carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.28/dist/index.min.js"></script>
+  
     <script src="js/top.js"></script>
 </body>
 
