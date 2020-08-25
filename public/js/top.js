@@ -79,9 +79,8 @@ var vm = new Vue({
                             channelIds.push(item.id.channelId);
                         }
                         console.log(channelIds);
+                        own.totalResults = res.data.items.length;
                         own.searchChannelStatistics(channelIds);
-                        own.rowCounts = res.data.items.length;
-                        own.totalResults = res.data.pageInfo.totalResults;
                     })
                     .catch(function (err) {
                         console.log(err);
@@ -114,6 +113,8 @@ var vm = new Vue({
             var processedResults = this.results.sort(this.compareFunc);
             // フィルタキーに従ってソートする。
             processedResults = processedResults.filter(this.getFilteredResults);
+            // フィルター後の件数を取得
+            this.rowCounts = processedResults.length;
             // currentページの件数のみ加工データとして保存
             this.processedResults = processedResults.slice(start, current);
         },
