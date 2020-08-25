@@ -39,8 +39,6 @@
                         <option value="asc">昇順</option>
                         <option value="desc">降順</option>
                     </select>
-                    <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
-                    <button v-on:click="omikujiSearch" class="btn btn-danger mr-2" style="width: 100px;">おみくじ</button>
                 </div>
                 <div style="margin-bottom: 10px;">
                     フィルタ
@@ -57,6 +55,7 @@
                     </select>
                 </div>
                 <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                <button v-on:click="omikujiSearch" class="btn btn-danger mr-2" style="width: 100px;">おみくじ検索</button>
                 <br><br>
             </div>
             <div>
@@ -136,21 +135,21 @@
                             Slackで情報連携<br>
                         <!-- </span> -->
                     </slide>
-            
+
                     <slide>
                         <h2>アーキテクチャ</h2><br>
                         <!-- <span class="label"> -->
                             <img src="repo/archi.png" width="800">
                         <!-- </span> -->
                     </slide>
-            
+
                     <slide>
                         <h2>コミット</h2><br>
                         <!-- <span class="label"> -->
                             <img src="repo/commit.png" width="800">
                         <!-- </span> -->
                     </slide>
-            
+
                     <slide>
                         <h2>軌跡</h2><br>
                         <img src="repo/kiseki.png" width="600">
@@ -202,7 +201,7 @@
 
     <script src="https://ssense.github.io/vue-carousel/js/vue-carousel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.28/dist/index.min.js"></script>
-  
+
     <script src="js/top.js"></script>
 </body>
 
