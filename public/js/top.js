@@ -89,8 +89,12 @@ var vm = new Vue({
             } else {
                 var own = this;
                 // APIキーか検索ワードがなければエラー
-                if (this.apiKey == '' || this.params.channel.q == '') {
-                    alert('APIキーと検索ワードは必須です。');
+                if (this.apiKey == '') {
+                    alert('APIキーを入力してください。');
+                    return;
+                }
+                if (this.params.channel.q == '') {
+                    alert('検索ワードを入力してください。');
                     return;
                 }
                 this.params.channel.key = this.apiKey;
