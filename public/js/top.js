@@ -50,6 +50,9 @@ var vm = new Vue({
         }
     },
     watch: {
+        keyword: function () {
+            localStorage.setItem('keyword', JSON.stringify(this.keyword));
+        },
         results: function () {
             localStorage.setItem('results', JSON.stringify(this.results));
         },
@@ -59,14 +62,20 @@ var vm = new Vue({
         totalResults: function () {
             localStorage.setItem('totalResults', JSON.stringify(this.totalResults));
         },
+        rowCounts: function () {
+            localStorage.setItem('rowCounts', JSON.stringify(this.rowCounts));
+        },
         pageCount: function () {
             localStorage.setItem('pageCount', JSON.stringify(this.pageCount));
         }
     },
     mounted: function () {
+        this.keyword = JSON.parse(localStorage.getItem('keyword')) || [];
+        this.params.channel.q = JSON.parse(localStorage.getItem('keyword')) || [];
         this.results = JSON.parse(localStorage.getItem('results')) || [];
         this.processedResults = JSON.parse(localStorage.getItem('processedResults')) || [];
         this.totalResults = JSON.parse(localStorage.getItem('totalResults')) || [];
+        this.rowCounts = JSON.parse(localStorage.getItem('rowCounts')) || [];
         this.pageCount = JSON.parse(localStorage.getItem('pageCount')) || [];
     },
     methods: {
