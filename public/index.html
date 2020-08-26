@@ -28,8 +28,7 @@
                 <br>
                 <input type="text" v-model="params.channel.q" style="width: 30%; height: 35px;margin-bottom: 10px;" />
                 <div style="margin-bottom: 10px;">
-                    ソート
-                    <select v-model="sort.key" id="sortKey" style="height: 35px;">
+                    <select v-model="sort.key" id="sortKey" style="height: 35px; width: 260px;">
                         <option value="subscriberCount">登録者数</option>
                         <option value="viewCount">総再生回数</option>
                         <option value="videoCount">動画投稿本数</option>
@@ -41,7 +40,6 @@
                     </select>
                 </div>
                 <div style="margin-bottom: 10px;">
-                    フィルタ
                     <select v-model="filter.key" id="filterKey" style="height: 35px;">
                         <option value="none">-</option>
                         <option value="subscriberCount">登録者数</option>
@@ -50,7 +48,7 @@
                         <option value="publishedAt">チャンネル開設日</option>
                     </select>
                     <input type="date" v-if="filter.key == 'publishedAt'" v-model="filter.value" style="height: 35px;">
-                    <input type="number" v-else v-model.number="filter.value" style="height: 35px;">
+                    <input type="number" v-else v-model.number="filter.value" style="height: 35px;width: 120px;">
                     <select v-if="filter.key == 'publishedAt'" v-model="filter.order" id="filterOrder" style="height: 35px;">
                         <option value="more">以降</option>
                         <option value="less">以前</option>
@@ -60,8 +58,8 @@
                         <option value="less">以下</option>
                     </select>
                 </div>
-                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
-                <button v-on:click="omikujiSearch" class="btn btn-success mr-2" style="width: 160px;">おみくじ検索</button>
+                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">検索</button>
+                <button v-on:click="omikujiSearch" class="btn btn-success mr-2" style="width: 140px;">おみくじ検索</button>
                 <br><br>
             </div>
             <div>
