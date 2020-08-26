@@ -56,6 +56,9 @@ var vm = new Vue({
         processedResults: function () {
             localStorage.setItem('processedResults', JSON.stringify(this.processedResults));
         },
+        totalResults: function () {
+            localStorage.setItem('totalResults', JSON.stringify(this.totalResults));
+        },
         pageCount: function () {
             localStorage.setItem('pageCount', JSON.stringify(this.pageCount));
         }
@@ -63,6 +66,7 @@ var vm = new Vue({
     mounted: function () {
         this.results = JSON.parse(localStorage.getItem('results')) || [];
         this.processedResults = JSON.parse(localStorage.getItem('processedResults')) || [];
+        this.totalResults = JSON.parse(localStorage.getItem('totalResults')) || [];
         this.pageCount = JSON.parse(localStorage.getItem('pageCount')) || [];
     },
     methods: {
