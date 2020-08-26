@@ -64,8 +64,8 @@
             </div>
             <div>
                 <paginate
-                  v-show="processedResults"
-                  :page-count="getPageCount"
+                  v-show="pageCount"
+                  :page-count="pageCount"
                   :page-range="3"
                   :margin-pages="2"
                   :click-handler="clickCallback"
@@ -114,8 +114,8 @@
                     </tbody>
                 </table>
                 <paginate
-                  v-show="processedResults"
-                  :page-count="getPageCount"
+                  v-show="pageCount"
+                  :page-count="pageCount"
                   :page-range="3"
                   :margin-pages="2"
                   :click-handler="clickCallback"

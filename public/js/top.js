@@ -12,6 +12,7 @@ var vm = new Vue({
         processedResults: null,
         rowCounts: null,
         totalResults: null,
+        pageCount: null,
         // YouTube Data APIのリクエストパラメータ
         params: {
             // チャンネルを取得(Search: list)
@@ -45,7 +46,7 @@ var vm = new Vue({
             // 初期ページ番号
             currentPage: 1,
             // アイテム数 / ページ
-            parPage: 10
+            parPage: 10,
         }
     },
     watch: {
@@ -54,11 +55,15 @@ var vm = new Vue({
         },
         processedResults: function () {
             localStorage.setItem('processedResults', JSON.stringify(this.processedResults));
+        },
+        pageCount: function () {
+            localStorage.setItem('pageCount', JSON.stringify(this.pageCount));
         }
     },
     mounted: function () {
         this.results = JSON.parse(localStorage.getItem('results')) || [];
         this.processedResults = JSON.parse(localStorage.getItem('processedResults')) || [];
+        this.pageCount = JSON.parse(localStorage.getItem('pageCount')) || [];
     },
     methods: {
         // チャンネル検索(Search :list)
@@ -121,6 +126,8 @@ var vm = new Vue({
             this.rowCounts = processedResults.length;
             // currentページの件数のみ加工データとして保存
             this.processedResults = processedResults.slice(start, current);
+            // ページ数を取得
+            this.getPageCount();
         },
         // ソート時の比較関数
         compareFunc: function (a, b) {
@@ -164,10 +171,19 @@ var vm = new Vue({
                     case 'videoCount':
                         return result.statistics.videoCount <= this.filter.value;
                     case 'publishedAt':
-                        return new Date(result.snippet.publishedAt) <= new Date(this.filter.value);
+                        return new Date(result.snippet.publishedAt) < new Date(this.filter.value);
                     default:
                         return true;
                 }
+            }
+        },
+        // ページ数を取得する
+        getPageCount: function functionName() {
+            if (this.results != null) {
+                var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
+                this.pageCount = Math.ceil(filteredResultsCount / this.pagination.parPage);
+            } else {
+                this.pageCount = null;
             }
         },
         // ページネーションククリック時の処理
@@ -226,17 +242,17 @@ var vm = new Vue({
             return (year + "年" + month + "月" + day + "日");
         }
     },
-    computed: {
-        // ページ数取得
-        getPageCount: function () {
-            if (this.results != null) {
-                var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
-                return Math.ceil(filteredResultsCount / this.pagination.parPage);
-            } else {
-                return null;
-            }
-        }
-    },
+    // computed: {
+    //     // ページ数取得
+    //     getPageCount: function () {
+    //         if (this.results != null) {
+    //             var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
+    //             return Math.ceil(filteredResultsCount / this.pagination.parPage);
+    //         } else {
+    //             return null;
+    //         }
+    //     }
+    // },
     components: {
         'carousel': VueCarousel.Carousel,
         'slide': VueCarousel.Slide
