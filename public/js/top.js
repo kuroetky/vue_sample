@@ -70,7 +70,8 @@ var vm = new Vue({
                 this.processResults();
             } else {
                 var own = this;
-                this.params.channel.key = this.apiKey;
+                //this.params.channel.key = this.apiKey;
+                this.params.channel.key = encodeURIComponent(functions.config().youtube.key);
                 this.keyword = this.params.channel.q;
                 // YouTube Data API実行
                 axios
@@ -93,7 +94,8 @@ var vm = new Vue({
         searchChannelStatistics: function (channelIds) {
             this.params.statistics.id = channelIds.join(',');
             var own = this;
-            this.params.statistics.key = this.apiKey;
+            //this.params.statistics.key = this.apiKey;
+            this.params.statistics.key = encodeURIComponent(functions.config().youtube.key);
             // YouTube Data API実行
             axios
                 .get('https://www.googleapis.com/youtube/v3/channels', { params: this.params.statistics })
