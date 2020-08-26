@@ -88,6 +88,11 @@ var vm = new Vue({
                 this.processResults();
             } else {
                 var own = this;
+                // APIキーか検索ワードがなければエラー
+                if (this.apiKey == '' || this.params.channel.q == '') {
+                    alert('APIキーと検索ワードは必須です。');
+                    return;
+                }
                 this.params.channel.key = this.apiKey;
                 //this.params.channel.key = encodeURIComponent(functions.config().youtube.key);
                 this.keyword = this.params.channel.q;
@@ -255,17 +260,6 @@ var vm = new Vue({
             return (year + "年" + month + "月" + day + "日");
         }
     },
-    // computed: {
-    //     // ページ数取得
-    //     getPageCount: function () {
-    //         if (this.results != null) {
-    //             var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
-    //             return Math.ceil(filteredResultsCount / this.pagination.parPage);
-    //         } else {
-    //             return null;
-    //         }
-    //     }
-    // },
     components: {
         'carousel': VueCarousel.Carousel,
         'slide': VueCarousel.Slide
