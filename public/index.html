@@ -39,8 +39,6 @@
                         <option value="asc">昇順</option>
                         <option value="desc">降順</option>
                     </select>
-                    <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
-                    <button v-on:click="omikujiSearch" class="btn btn-danger mr-2" style="width: 100px;">おみくじ</button>
                 </div>
                 <div style="margin-bottom: 10px;">
                     フィルタ
@@ -49,17 +47,34 @@
                         <option value="subscriberCount">登録者数</option>
                         <option value="viewCount">総再生回数</option>
                         <option value="videoCount">動画投稿本数</option>
+                        <option value="publishedAt">チャンネル開設日</option>
                     </select>
-                    <input type="number" v-model.number="filter.value" style="height: 35px;"/>
-                    <select v-model="filter.order" id="filterOrder" style="height: 35px;">
+                    <input type="date" v-if="filter.key == 'publishedAt'" v-model="filter.value" style="height: 35px;">
+                    <input type="number" v-else v-model.number="filter.value" style="height: 35px;">
+                    <select v-if="filter.key == 'publishedAt'" v-model="filter.order" id="filterOrder" style="height: 35px;">
+                        <option value="more">以降</option>
+                        <option value="less">以前</option>
+                    </select>
+                    <select v-else v-model="filter.order" id="filterOrder" style="height: 35px;">
                         <option value="more">以上</option>
                         <option value="less">以下</option>
                     </select>
                 </div>
                 <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 100px;">検索</button>
+                <button v-on:click="omikujiSearch" class="btn btn-success mr-2" style="width: 160px;">おみくじ検索</button>
                 <br><br>
             </div>
             <div>
+                <paginate
+                  v-show="processedResults"
+                  :page-count="getPageCount"
+                  :page-range="3"
+                  :margin-pages="2"
+                  :click-handler="clickCallback"
+                  :prev-text="'<'"
+                  :next-text="'>'"
+                  :container-class="'pagination'">
+                </paginate>
                 <p v-show="rowCounts">総ヒット件数（最大50件取得）: {{ totalResults }}件中、 フィルター後の{{ rowCounts }}件を表示</p>
                 <table class="table sticky_table" style="table-layout: fixed; word-wrap: break-word;">
                     <thead class="thead-light">
@@ -136,21 +151,21 @@
                             Slackで情報連携<br>
                         <!-- </span> -->
                     </slide>
-            
+
                     <slide>
                         <h2>アーキテクチャ</h2><br>
                         <!-- <span class="label"> -->
                             <img src="repo/archi.png" width="800">
                         <!-- </span> -->
                     </slide>
-            
+
                     <slide>
                         <h2>コミット</h2><br>
                         <!-- <span class="label"> -->
                             <img src="repo/commit.png" width="800">
                         <!-- </span> -->
                     </slide>
-            
+
                     <slide>
                         <h2>軌跡</h2><br>
                         <img src="repo/kiseki.png" width="600">
@@ -202,7 +217,7 @@
 
     <script src="https://ssense.github.io/vue-carousel/js/vue-carousel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.28/dist/index.min.js"></script>
-  
+
     <script src="js/top.js"></script>
 </body>
 
