@@ -15,15 +15,26 @@
 
 <body>
     <div id="app" class="container">
-        <div style="text-align: right;">
-            <button class="btn btn-secondary" style="width: 140px;" a hlef="#" v-on:click.stop.prevent="openWindow">チャットルーム</button>
-            <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
-            <button class="btn btn-secondary" style="width: 140px;" v-on:click="showTD">チーム開発</button>
-            <!-- <button class="btn btn-secondary" style="width: 140px;" v-on:click.stop.prevent="openWindowTD">チーム開発</button> -->
+        <div class="row">
+            <div class="col-lg-2">
+                <button class="btn btn-info" style="width: 150px;" onclick="window.open('https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca','_blank')">APIキーの取得方法</button>
+            </div>
+            <div class="col-lg-offset-5">
+                <button class="btn btn-secondary" style="width: 140px;" a hlef="#" v-on:click.stop.prevent="openWindow">チャットルーム</button>
+                <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
+                <button class="btn btn-secondary" style="width: 140px;" v-on:click="showTD">チーム開発</button>
+            </div>
         </div>
         <div id="activity-log">
+            <div v-if="params.channel.q == keyword" class="row">
+                <div class="col-lg-2"></div>
+                <div class="notice col-lg-8 text-center">
+                    <p>検索ワードが直前と同じため、APIキーなしでソートとフィルタリングが可能です。</p>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
             <div style="text-align: center; margin-top: 20px;"><img src="img/logo.png" alt="YouTuber検索" width="400"></div>
-            <div class="col-lg" style="text-align: center;">
+            <div class="col-lg text-center">
                 <input type="text" v-model="apiKey" placeholder="APIキーを入力" style="width: 30%;height: 35px;margin-bottom: 10px;" />
                 <br>
                 <input type="text" v-model="params.channel.q" placeholder="検索語を入力" style="width: 30%; height: 35px;margin-bottom: 10px;" />
@@ -58,7 +69,8 @@
                         <option value="less">以下</option>
                     </select>
                 </div>
-                <button v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">検索</button>
+                <button v-if="params.channel.q == keyword" v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">条件更新</button>
+                <button v-else v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">検索</button>
                 <button v-on:click="omikujiSearch" class="btn btn-success mr-2" style="width: 140px;">おみくじ検索</button>
                 <br><br>
             </div>

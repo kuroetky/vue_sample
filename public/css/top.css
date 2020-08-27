@@ -27,3 +27,18 @@ h2 {
 .sticky_table tbody tr:nth-child(even) {
   background: #fcf7ff;
 }
+
+/* APIキー不要の通知枠用 */
+.notice {
+    padding: 0.5em 1em;
+    margin-top: 2em;
+    font-weight: bold;
+    color: #6091d3;
+    background: #FFF;
+    border: solid 3px #6091d3;
+    border-radius: 10px;
+}
+.notice p {
+    margin: 0;
+    padding: 0;
+}

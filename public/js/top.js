@@ -50,6 +50,9 @@ var vm = new Vue({
         }
     },
     watch: {
+        keyword: function () {
+            localStorage.setItem('keyword', JSON.stringify(this.keyword));
+        },
         results: function () {
             localStorage.setItem('results', JSON.stringify(this.results));
         },
@@ -59,14 +62,20 @@ var vm = new Vue({
         totalResults: function () {
             localStorage.setItem('totalResults', JSON.stringify(this.totalResults));
         },
+        rowCounts: function () {
+            localStorage.setItem('rowCounts', JSON.stringify(this.rowCounts));
+        },
         pageCount: function () {
             localStorage.setItem('pageCount', JSON.stringify(this.pageCount));
         }
     },
     mounted: function () {
+        this.keyword = JSON.parse(localStorage.getItem('keyword')) || [];
+        this.params.channel.q = JSON.parse(localStorage.getItem('keyword')) || [];
         this.results = JSON.parse(localStorage.getItem('results')) || [];
         this.processedResults = JSON.parse(localStorage.getItem('processedResults')) || [];
         this.totalResults = JSON.parse(localStorage.getItem('totalResults')) || [];
+        this.rowCounts = JSON.parse(localStorage.getItem('rowCounts')) || [];
         this.pageCount = JSON.parse(localStorage.getItem('pageCount')) || [];
     },
     methods: {
@@ -79,6 +88,15 @@ var vm = new Vue({
                 this.processResults();
             } else {
                 var own = this;
+                // APIキーか検索ワードがなければエラー
+                if (this.apiKey == '') {
+                    alert('APIキーを入力してください。');
+                    return;
+                }
+                if (this.params.channel.q == '') {
+                    alert('検索ワードを入力してください。');
+                    return;
+                }
                 this.params.channel.key = this.apiKey;
                 //this.params.channel.key = encodeURIComponent(functions.config().youtube.key);
                 this.keyword = this.params.channel.q;
@@ -246,17 +264,6 @@ var vm = new Vue({
             return (year + "年" + month + "月" + day + "日");
         }
     },
-    // computed: {
-    //     // ページ数取得
-    //     getPageCount: function () {
-    //         if (this.results != null) {
-    //             var filteredResultsCount = this.results.filter(this.getFilteredResults).length;
-    //             return Math.ceil(filteredResultsCount / this.pagination.parPage);
-    //         } else {
-    //             return null;
-    //         }
-    //     }
-    // },
     components: {
         'carousel': VueCarousel.Carousel,
         'slide': VueCarousel.Slide
