@@ -239,14 +239,10 @@ var vm = new Vue({
             this.params.channel.q = this.omikuji[Math.floor(Math.random() * this.omikuji.length)];
             this.searchChannels();
         },
+        // チャットルーム
         openWindow: function () {
             const url = "https://authtest-67ba4.web.app/#/signin"
             window.open(url, '_blank', 'width=1024,height=768,scrollbars=yes,resizable=yes')
-        },
-        // チーム開発（別ウィンドウ）
-        openWindowTD: function () {
-            const url = "repo/index.html"
-            window.open(url, '_blank', 'scrollbars=no,resizable=no')
         },
         // チーム開発（モーダル）
         showTD: function () {

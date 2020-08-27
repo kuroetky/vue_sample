@@ -20,7 +20,7 @@
                 <button class="btn btn-info" style="width: 150px;" onclick="window.open('https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca','_blank')">APIキーの取得方法</button>
             </div>
             <div class="col-lg-offset-5">
-                <button class="btn btn-secondary" style="width: 140px;" a hlef="#" v-on:click.stop.prevent="openWindow">チャットルーム</button>
+                <button class="btn btn-secondary" style="width: 140px;" v-on:click.stop.prevent="openWindow">チャットルーム</button>
                 <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
                 <button class="btn btn-secondary" style="width: 140px;" v-on:click="showTD">チーム開発</button>
             </div>
@@ -138,78 +138,39 @@
             </div>
         </div>
 
-
         <modal name="modal-area" :width="1000" :height="750">
             <div class="modal-area-inner">
                 <carousel per-page="1">
                     <slide>
-                        <h2>メンバー紹介</h2><br>
-                        <!-- <span class="label"> -->
-                            <img src="repo/team.png" width="800">
-                        <!-- </span> -->
-                    </slide>
-
-                    <slide>
-                        <h2>チーム開発</h2><br>
-                        <!-- <span class="label"> -->
-                            ＜コンセプト＞<br>
-                            フロントエンド開発<br>
-                            未経験の技術・ツールにチャレンジ<br><br>
-                            ＜ルール＞<br>
-                            チケット駆動開発<br>
-                            GitHub Flowの実践<br>
-                            Slackで情報連携<br>
-                        <!-- </span> -->
-                    </slide>
-
-                    <slide>
-                        <h2>アーキテクチャ</h2><br>
-                        <!-- <span class="label"> -->
-                            <img src="repo/archi.png" width="800">
-                        <!-- </span> -->
-                    </slide>
-
-                    <slide>
-                        <h2>コミット</h2><br>
-                        <!-- <span class="label"> -->
-                            <img src="repo/commit.png" width="800">
-                        <!-- </span> -->
-                    </slide>
-
-                    <slide>
-                        <h2>軌跡</h2><br>
-                        <img src="repo/kiseki.png" width="600">
-                        <!-- <span class="label"> -->
-                            <!-- <ul>
-                            <li>7/22　何で作るか…Vue.js</li>
-                            <li>7/24　何を作るか…YouTuber検索</li>
-                            <li>7/31　ファーストコミット</li>
-                            <li>8/16　休日作業（共同レビュー、今後の方針確認）</li>
-                            <li>8/19　開発演習（KPT）</li>
-                            <li>8/21　開発演習（デモ）</li>
-                            <li>8/22　休日作業（コンフリクト解消、デバッグ）</li>
-                            <li>8/26　開発演習（開発最終日・デモ準備）</li>
-                            <li>8/28　成果発表</li>
-                            </ul> -->
-                        <!-- </span> -->
+                        <img src="repo/1_team.png" width="900">
                     </slide>
                     <slide>
-                        <h2>まとめ</h2><br>
-                        <!-- <span class="label"> -->
-                            各自が興味ある分野を積極的に学んだ<br>
-                            成果を共有してチームに貢献できた<br>
-                            対面時以上に言葉づかいに気を付けた<br>
-                            よい雰囲気でコミュニケーションもスムーズに<br>
-                            新しい技術のエッセンスをメンバー全員が体験<br>
-                            Vueの熟練者がいなかった分、協力して開発できた<br>
-                            ツールを絞ってプロジェクトをコンパクトに運用<br>
-                            最後まで開発を楽しめた！<br>
-                        <!-- </span> -->
+                        <img src="repo/2_motivation.png" width="900">
+                    </slide>
+                    <slide>
+                        <img src="repo/3_features.png" width="900">
+                    </slide>
+                    <slide>
+                        <img src="repo/4_architecture.png" width="900">
+                    </slide>
+                    <slide>
+                        <img src="repo/5_road.png" width="900">
+                    </slide>
+                    <slide>
+                        <img src="repo/6_teamdev.png" width="900">
+                    </slide>
+                    <slide>
+                        <img src="repo/7_sourcetree.png" width="800">
+                    </slide>
+                    <slide>
+                        <img src="repo/8_commit.png" width="900">
+                    </slide>
+                    <slide>
+                        <img src="repo/9_matome.png" width="900">
                     </slide>
                 </carousel>
             </div>
         </modal>
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
