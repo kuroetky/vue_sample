@@ -16,13 +16,13 @@
 <body>
     <div id="app" class="container">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-sm-1 col-xs-4">
                 <button class="btn btn-info" style="width: 150px;" onclick="window.open('https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca','_blank')">APIキーの取得方法</button>
             </div>
-            <div class="col-lg-offset-5">
+            <div class="col-lg-offset-5 col-md-offset-4 col-sm-offset-3 col-xs-offset-4">
                 <button class="btn btn-secondary" style="width: 140px;" v-on:click.stop.prevent="openWindow">チャットルーム</button>
-                <button class="btn btn-secondary" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
-                <button class="btn btn-secondary" style="width: 140px;" v-on:click="showTD">チーム開発</button>
+                <button class="btn btn-secondary hidden-xs" style="width: 140px;" v-on:click="downloadCSV">CSV出力</button>
+                <button class="btn btn-secondary hidden-xs" style="width: 140px;" v-on:click="showTD">チーム開発</button>
             </div>
         </div>
         <div id="activity-log">
@@ -103,7 +103,7 @@
                         <tr v-for="channel in processedResults">
                             <td>
                                 <a v-bind:href="'https://www.youtube.com/channel/' + channel.id" target="_blank">
-                                    <img width="88" height="88" v-bind:src="channel.snippet.thumbnails.default.url">
+                                    <img width="88%" height="88%" v-bind:src="channel.snippet.thumbnails.default.url">
                                 </a>
                             </td>
                             <td>{{ channel.snippet.title }}</td>
