@@ -70,13 +70,13 @@ var vm = new Vue({
         }
     },
     mounted: function () {
-        this.keyword = JSON.parse(localStorage.getItem('keyword')) || [];
-        this.params.channel.q = JSON.parse(localStorage.getItem('keyword')) || [];
-        this.results = JSON.parse(localStorage.getItem('results')) || [];
-        this.processedResults = JSON.parse(localStorage.getItem('processedResults')) || [];
-        this.totalResults = JSON.parse(localStorage.getItem('totalResults')) || [];
-        this.rowCounts = JSON.parse(localStorage.getItem('rowCounts')) || [];
-        this.pageCount = JSON.parse(localStorage.getItem('pageCount')) || [];
+        this.keyword = JSON.parse(localStorage.getItem('keyword'));
+        this.params.channel.q = JSON.parse(localStorage.getItem('keyword'));
+        this.results = JSON.parse(localStorage.getItem('results'));
+        this.processedResults = JSON.parse(localStorage.getItem('processedResults'));
+        this.totalResults = JSON.parse(localStorage.getItem('totalResults'));
+        this.rowCounts = JSON.parse(localStorage.getItem('rowCounts'));
+        this.pageCount = JSON.parse(localStorage.getItem('pageCount'));
     },
     methods: {
         // チャンネル検索(Search :list)

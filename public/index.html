@@ -26,7 +26,7 @@
             </div>
         </div>
         <div id="activity-log">
-            <div v-if="params.channel.q == keyword" class="row">
+            <div v-if="(params.channel.q == keyword) && params.channel.q != null" class="row">
                 <div class="col-lg-2"></div>
                 <div class="notice col-lg-8 text-center">
                     <p>検索ワードが直前と同じため、APIキーなしでソートとフィルタリングが可能です。</p>
@@ -85,7 +85,7 @@
                   :next-text="'>'"
                   :container-class="'pagination'">
                 </paginate>
-                <p v-show="processedResults">総ヒット件数（最大50件取得）: {{ totalResults }}件中、 フィルター後の{{ rowCounts }}件を表示</p>
+                <p v-show='totalResults && rowCounts'>総ヒット件数（最大50件取得）: {{ totalResults }}件中、 フィルター後の{{ rowCounts }}件を表示</p>
                 <table class="table sticky_table" style="table-layout: fixed; word-wrap: break-word;">
                     <thead class="thead-light">
                         <tr style="text-align: center;">
