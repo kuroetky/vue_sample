@@ -9,6 +9,7 @@ var vm = new Vue({
         apiKey: '', // API Key
         keyword: '', // 直前に検索したキーワードを保存しておく
         results: null,
+        processedAllResults: null,
         processedResults: null,
         rowCounts: null,
         totalResults: null,
@@ -56,6 +57,9 @@ var vm = new Vue({
         results: function () {
             localStorage.setItem('results', JSON.stringify(this.results));
         },
+        processedAllResults: function () {
+            localStorage.setItem('processedAllResults', JSON.stringify(this.processedAllResults));
+        },
         processedResults: function () {
             localStorage.setItem('processedResults', JSON.stringify(this.processedResults));
         },
@@ -73,6 +77,7 @@ var vm = new Vue({
         this.keyword = JSON.parse(localStorage.getItem('keyword'));
         this.params.channel.q = JSON.parse(localStorage.getItem('keyword'));
         this.results = JSON.parse(localStorage.getItem('results'));
+        this.processedAllResults = JSON.parse(localStorage.getItem('processedAllResults'));
         this.processedResults = JSON.parse(localStorage.getItem('processedResults'));
         this.totalResults = JSON.parse(localStorage.getItem('totalResults'));
         this.rowCounts = JSON.parse(localStorage.getItem('rowCounts'));
@@ -144,6 +149,8 @@ var vm = new Vue({
             var processedResults = this.results.sort(this.compareFunc);
             // フィルタキーに従ってソートする。
             processedResults = processedResults.filter(this.getFilteredResults);
+            // フィルター後の全てのデータを保存
+            this.processedAllResults = processedResults;
             // フィルター後の件数を取得
             this.rowCounts = processedResults.length;
             // currentページの件数のみ加工データとして保存
@@ -211,7 +218,15 @@ var vm = new Vue({
         // ページネーションククリック時の処理
         clickCallback: function (pageNum) {
             this.pagination.currentPage = Number(pageNum);
-            this.processResults();
+            var current = this.pagination.currentPage * this.pagination.parPage;
+            var start = current - this.pagination.parPage;
+            var processedResults = this.processedAllResults;
+            // フィルター後の件数を取得
+            this.rowCounts = processedResults.length;
+            // currentページの件数のみ加工データとして保存
+            this.processedResults = processedResults.slice(start, current);
+            // ページ数を取得
+            this.getPageCount();
         },
         // CSVファイルダウンロード
         downloadCSV: function () {
