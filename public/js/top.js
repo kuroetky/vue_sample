@@ -225,8 +225,6 @@ var vm = new Vue({
             this.rowCounts = processedResults.length;
             // currentページの件数のみ加工データとして保存
             this.processedResults = processedResults.slice(start, current);
-            // ページ数を取得
-            this.getPageCount();
         },
         // CSVファイルダウンロード
         downloadCSV: function () {
