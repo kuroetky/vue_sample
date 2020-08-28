@@ -103,7 +103,7 @@
                         <tr v-for="channel in processedResults">
                             <td>
                                 <a v-bind:href="'https://www.youtube.com/channel/' + channel.id" target="_blank">
-                                    <img width="88%" height="88%" v-bind:src="channel.snippet.thumbnails.default.url">
+                                    <img style="width: 88%; height 88%" v-bind:src="channel.snippet.thumbnails.default.url">
                                 </a>
                             </td>
                             <td>{{ channel.snippet.title }}</td>
