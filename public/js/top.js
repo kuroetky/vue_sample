@@ -228,7 +228,7 @@ var vm = new Vue({
         },
         // CSVファイルダウンロード
         downloadCSV: function () {
-            var csv = '\ufeff' + 'チャンネルURL,YouTuber名,登録者数,再生回数,投稿本数,チャンネル内容\n'
+            var csv = '\ufeff' + 'チャンネルURL,YouTuber名,登録者数,再生回数,投稿本数,チャンネル内容,開設日\n'
             this.results.forEach(el => {
                 var line =
                     'https://www.youtube.com/channel/' + el['id'] + ','
