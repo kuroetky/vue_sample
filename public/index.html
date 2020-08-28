@@ -26,7 +26,7 @@
             </div>
         </div>
         <div id="activity-log">
-            <div v-if="(params.channel.q == keyword) && params.channel.q != null" class="row">
+            <div v-if="(params.channel.q == keyword) && (params.channel.q != null)" class="row">
                 <div class="col-lg-2"></div>
                 <div class="notice col-lg-8 text-center">
                     <p>検索ワードが直前と同じため、APIキーなしでソートとフィルタリングが可能です。</p>
@@ -69,7 +69,7 @@
                         <option value="less">以下</option>
                     </select>
                 </div>
-                <button v-if="params.channel.q == keyword" v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">条件更新</button>
+                <button v-if="(params.channel.q == keyword) && (params.channel.q != null)" v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">条件更新</button>
                 <button v-else v-on:click="searchChannels" class="btn btn-danger mr-2" style="width: 140px;">検索</button>
                 <button v-on:click="omikujiSearch" class="btn btn-success mr-2" style="width: 140px;">おみくじ検索</button>
                 <br><br>
