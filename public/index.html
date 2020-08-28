@@ -26,7 +26,7 @@
             </div>
         </div>
         <div id="activity-log">
-            <div v-if="(params.channel.q == keyword) && (params.channel.q != null)" class="row">
+            <div v-if="(params.channel.q == keyword) && (params.channel.q != null) && results" class="row">
                 <div class="col-lg-2"></div>
                 <div class="notice col-lg-8 text-center">
                     <p>検索ワードが直前と同じため、APIキーなしでソートとフィルタリングが可能です。</p>
