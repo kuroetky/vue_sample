@@ -107,9 +107,9 @@
                                 </a>
                             </td>
                             <td>{{ channel.snippet.title }}</td>
-                            <td>{{ channel.statistics.subscriberCount.toLocaleString() }}</td>
-                            <td>{{ channel.statistics.viewCount.toLocaleString() }}</td>
-                            <td>{{ channel.statistics.videoCount.toLocaleString() }}</td>
+                            <td>{{ Number(channel.statistics.subscriberCount).toLocaleString() }}</td>
+                            <td>{{ Number(channel.statistics.viewCount).toLocaleString() }}</td>
+                            <td>{{ Number(channel.statistics.videoCount).toLocaleString() }}</td>
                             <td>
                                 <span class="desc">
                                     {{ channel.snippet.description }}
